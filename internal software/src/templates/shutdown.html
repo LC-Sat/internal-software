@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <title>LC Sat Dashboard</title>
+
+        <style type="text/css">
+            
+            body {
+                background-color: #212121;
+                color: aliceblue;
+                font-family: 'Arial';
+                padding: 1%;
+            }
+
+            #container {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            h1 {
+                font-variant: small-caps;
+                text-decoration: underline;
+                font-size: 2em;
+            }
+
+            fieldset {
+                min-width: 300px;
+                padding: 1%;
+                padding-bottom: 5%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            fieldset div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            button {
+                padding: 2%;
+                margin: 1%;
+                font-weight: bold;
+                max-width: 125px;
+            }
+
+            form {
+                margin: 5%;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+
+            input {
+                padding: 2%;
+                font-weight: bold;
+                max-width: 150px;
+            } 
+
+            #oldData {
+                max-width: 250px;
+            }
+
+            .active:hover {
+                color: #196f3d;
+                background-color: white;
+            }
+
+            .active {
+                background-color:  #196f3d;
+                color: aliceblue;
+            }
+
+            .desactive:hover {
+                color: #c0392b;
+                background-color: aliceblue; 
+            }
+
+            .desactive {
+                background-color: #c0392b;
+                color: aliceblue; 
+            }
+
+            /*Interface pour grands écrans*/
+            @media screen and (min-width: 400px) {
+
+                h1 {
+                    font-size: 4em;
+                }
+
+                fieldset {
+                    min-width: 500px;
+                }
+
+                button, input{
+                    max-width: 300px;
+                    min-width: 200px;
+                    margin: 2%;
+                    padding: 5%;
+                }
+
+                #data_nb {
+                    padding: 3%;
+                }
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                }
+
+                a {
+                    margin: 2%;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+    <div id="container">
+
+        <h2>Arrêt en cours ...</h2>
+        <p>Merci d'attendre le signal d'arrêt du cansat avant de couper son alimentation. Vous pouvez également rafraichir cette page pour vérifier si le cansat peut être éteint.</p>
+        <br/>
+        <h2>Statut : {{status}}</h2>
+    </div>
+        
+    </body>
+</html>

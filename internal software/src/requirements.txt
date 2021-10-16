@@ -1,0 +1,7 @@
+numpy
+pyAesCrypt
+Adafruit-Blinka
+adafruit-circuitpython-gps
+adafruit-circuitpython-hts221
+adafruit-circuitpython-register
+Flask

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="UTF-8">
+        <title>LC Sat Dashboard</title>
+        <meta http-equiv="refresh" content="10">
+
+        <style type="text/css">
+            
+            body {
+                background-color: #212121;
+                color: aliceblue;
+                font-family: 'Arial';
+                padding: 1%;
+            }
+
+            #container {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            h1 {
+                font-variant: small-caps;
+                text-decoration: underline;
+                font-size: 2em;
+            }
+
+            fieldset {
+                min-width: 300px;
+                padding: 1%;
+                padding-bottom: 5%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            fieldset div {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                align-items: center;
+            }
+
+            button {
+                padding: 2%;
+                margin: 1%;
+                font-weight: bold;
+                max-width: 125px;
+            }
+
+            form {
+                margin: 5%;
+            }
+
+            label {
+                font-size: 1.2em;
+            }
+
+            input {
+                padding: 2%;
+                font-weight: bold;
+                max-width: 150px;
+            } 
+
+            #oldData {
+                max-width: 250px;
+            }
+
+            .active:hover {
+                color: #196f3d;
+                background-color: white;
+            }
+
+            .active {
+                background-color:  #196f3d;
+                color: aliceblue;
+            }
+
+            .desactive:hover {
+                color: #c0392b;
+                background-color: aliceblue; 
+            }
+
+            .desactive {
+                background-color: #c0392b;
+                color: aliceblue; 
+            }
+
+            /*Interface pour grands écrans*/
+            @media screen and (min-width: 400px) {
+
+                h1 {
+                    font-size: 4em;
+                }
+
+                fieldset {
+                    min-width: 500px;
+                }
+
+                button, input{
+                    max-width: 300px;
+                    min-width: 200px;
+                    margin: 2%;
+                    padding: 5%;
+                }
+
+                #data_nb {
+                    padding: 3%;
+                }
+
+                form {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    align-items: center;
+                }
+
+                a {
+                    margin: 2%;
+                }
+
+            }
+
+        </style>
+
+    </head>
+
+    <body>
+
+        <div id="container">
+            
+            <h1>Tableau De Bord : </h1>
+
+            <div id="status">
+
+                <fieldset>
+
+                    <legend>
+                        <h2>Status :</h2>
+                    </legend>
+                    
+                    <ul>
+                        <li>Running : {{sat.running}} </li>
+                        <li>Prise de donnée : {{sat.capture}} </li>
+                        <li>Mode : {{mode}} </li>
+                    </ul>
+
+                </fieldset>
+
+            </div>
+            
+            
+            <div id="control">
+                     
+                <fieldset>
+                
+                <legend>
+                    <h2>Contrôle :</h2>
+                </legend>
+                    {% if sat.saving %}
+
+                    <div>
+                        <p>Sauvegarde en cours, patientez ...</p>
+                    </div>
+
+
+                    {% elif sat.capture %}
+
+                        <div>
+                            <a href="/api/capture/start">
+                                <button disabled>Activer la capture</button>
+                            </a>
+                            <a href="/api/capture/stop">
+                                <button class="desactive">Désactiver la capture</button>
+                            </a>
+                        </div>
+                        
+                    {% else %}
+
+                        <div>
+                            <a href="/api/capture/start">
+                                <button class="active">Activer la capture</button>
+                            </a>
+                            <a href="/api/capture/stop">
+                                <button disabled>Désactiver la capture</button>
+                            </a>
+                        </div>
+                        
+                    {% endif %}
+                    {% if sat.buzzer_on %}
+
+                        <div>
+                            <a href="/api/buzzer/start">
+                                <button disabled>Activer le buzzer</button>
+                            </a>
+                            <a href="/api/buzzer/stop">
+                                <button class="desactive">Désactiver le buzzer</button>
+                            </a>
+                        </div>
+
+                    {% else %}
+
+                        <div>
+                            <a href="/api/buzzer/start">
+                                <button class="active">Activer le buzzer</button>
+                            </a>
+                            <a href="/api/buzzer/stop">
+                                <button disabled>Désactiver le buzzer</button>
+                            </a>
+                        </div>
+
+                    {% endif %}
+
+                </fieldset>
+
+                <a href="/api/cansat/shutdown">
+                    <button class="desactive">Éteindre le cansat</button>
+                </a>
+
+            </div>
+        
+            <br/>
+        
+            <div id="data">
+                
+                <fieldset>
+                    
+                    <legend>
+                        <h2>Données :</h2>
+                    </legend>
+
+                <a href="/api/download?data_nb={{nb}}">
+                    <button class='active' id="oldData">Télécharger les dernières données capturées</button>
+                </a>
+
+                <form action="/api/download" method="get">
+
+                    <div>
+                        <label for="data_nb">Numéro des données :</label>
+                        <input type="number" id="data_nb" name="data_nb">
+                    </div>
+                    <input type="submit" value="Télécharcher" class="active">
+
+                </form>
+
+                </fieldset>                
+                
+            </div>
+
+        </div>
+
+        
+    </body>
+</html>

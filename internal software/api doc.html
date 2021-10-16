@@ -1,0 +1,163 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>api doc</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#documentation-de-lapi-du-cansat">Documentation de l’API du CanSat</a>
+<ul>
+<li><a href="#liste-des-urls-disponibles-">Liste des urls disponibles :</a></li>
+<li><a href="#statut-du-satellite">Statut du satellite</a></li>
+<li><a href="#téléchargement-des-données">Téléchargement des données</a></li>
+<li><a href="#gestion-de-la-capture">Gestion de la capture</a></li>
+<li><a href="#gestion-du-chiffrement">Gestion du chiffrement</a></li>
+<li><a href="#gestion-du-buzzer">Gestion du buzzer</a></li>
+<li><a href="#arrêt-du-satellite">Arrêt du satellite</a></li>
+<li><a href="#logs-wip">Logs (WIP)</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="documentation-de-lapi-du-cansat">Documentation de l’API du CanSat</h1>
+<p>Tous les urls utilisent des requêtes GET, sauf si précisé autrement. Les données renvoyées (s’il y en a) sont retournées au format JSON.</p>
+<h2 id="liste-des-urls-disponibles-">Liste des urls disponibles :</h2>
+<ul>
+<li><a href="#statut-du-satellite">Status du satellite</a> <code>/api/cansat/status</code></li>
+<li><a href="#t%C3%A9l%C3%A9chargement-des-donn%C3%A9es">Téléchargement des données</a> <code>/api/download</code></li>
+<li><a href="#gestion-de-la-capture">Gestion de la capture</a> <code>/api/capture</code></li>
+<li><a href="#gestion-du-chiffrement">Gestion du chiffrement</a> <code>/api/encryption</code></li>
+<li><a href="#gestion-du-buzzer">Gestion du buzzer</a> <code>/api/buzzer</code></li>
+<li><a href="#arr%C3%AAt-du-satellite">Arrêt du satellite</a> <code>/api/cansat/shutdown</code></li>
+<li><a href="#logs-wip">Logs (WIP)</a> <code>/api/cansat/logs</code></li>
+</ul>
+<hr>
+<h2 id="statut-du-satellite">Statut du satellite</h2>
+<p><strong>Url :</strong> <code>/api/cansat/status</code><br>
+Permet d’obtenir le status général du satellite. Renvoi un dictionnaire JSON sous ce format :</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>  
+  <span class="token string">"running"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+  <span class="token string">"capturing"</span><span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>  
+  <span class="token string">"saving"</span><span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>  
+  <span class="token string">"wifi"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+  <span class="token string">"encryption"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+  <span class="token string">"buzzer"</span><span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>  
+  <span class="token string">"mode"</span><span class="token punctuation">:</span> <span class="token string">"MANUAL"</span><span class="token punctuation">,</span>
+  <span class="token string">"last_data"</span><span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">,</span> 
+  <span class="token string">"sensors"</span><span class="token punctuation">:</span> <span class="token punctuation">{</span>  
+	  <span class="token string">"camera"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+	  <span class="token string">"bmp"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+	  <span class="token string">"accel"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+	  <span class="token string">"gps"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+	  <span class="token string">"th_cam"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>  
+	  <span class="token string">"humidity"</span><span class="token punctuation">:</span> <span class="token boolean">true</span>  
+	<span class="token punctuation">}</span>  
+<span class="token punctuation">}</span>
+</code></pre>
+<p>Explication des différents éléments :</p>
+
+<table>
+<thead>
+<tr>
+<th>Nom</th>
+<th>Valeurs possibles</th>
+<th>Explication</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>running</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat général du programme. Si<code>true</code>, le programme du satellite est en fonctionnement, sinon il est arrêté.</td>
+</tr>
+<tr>
+<td><code>capturing</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat de la capture. Si <code>true</code>, le satellite est en train d’enregistrer des données.</td>
+</tr>
+<tr>
+<td><code>saving</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat de la sauvegarde. Si <code>true</code>, le satellite est en train de sauvegarder les données, aucune capture ne peut être lancée pendant ce temps.</td>
+</tr>
+<tr>
+<td><code>wifi</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat du wifi. Si <code>true</code>, le wifi est activé.</td>
+</tr>
+<tr>
+<td><code>encryption</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat du chiffrement. Si <code>true</code>, le satellite chiffrera les données lors de la sauvegarde.</td>
+</tr>
+<tr>
+<td><code>buzzer</code></td>
+<td><code>true</code> ou <code>false</code></td>
+<td>Etat du buzzer. Si <code>true</code>, le buzzer est actuellement en train de sonner, c’est à dire qu’il bip régulièrement pour faciliter sa localisation.</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>AUTO</code>, <code>MANUAL</code> ou <code>DELAY</code></td>
+<td>Le mode de fonctionnement du satellite. Le mode <code>AUTO</code> n’est pas implémenté et ne devrait pas apparaître, les mode <code>MANUAL</code> est le mode par défaut qui correspond à un démarrage / arrêt de la capture manuel, et le mode <code>DELAY</code> lance et arrête la capture automatiquement après une certaine durée puis repasse en mode <code>MANUAL</code>.</td>
+</tr>
+<tr>
+<td><code>last_data</code></td>
+<td>Nombre entier</td>
+<td>Le dernier numéro des données enregistrées (à utiliser comme argument pour le <a href="#t%C3%A9l%C3%A9chargement-des-donn%C3%A9es">téléchargement</a> pour avoir les dernières données enregistrées. Si égal à <code>-1</code>, c’est qu’aucune donnée n’a encore été enregistrée.</td>
+</tr>
+<tr>
+<td><code>sensors</code></td>
+<td><code>true</code> ou <code>false</code> pour chaque capteur</td>
+<td>Liste l’état de chaque capteur. Si <code>true</code>, le capteur correspondant est activé, sinon c’est qu’il y a eu une erreur lors de l’initialisation de ce capteur.</td>
+</tr>
+</tbody>
+</table><hr>
+<h2 id="téléchargement-des-données">Téléchargement des données</h2>
+<p><strong>Url :</strong> <code>/api/download</code></p>
+<p>Permet de télécharger les données enregistrées. Par défaut, télécharge les dernières données, mais un numéro de données peut être précisée avec l’argument <code>data_nb</code>, par exemple <code>/api/download?data_nb=2</code> téléchargera les données numéro 2 (3èmes données enregistrées car le compteur commence à 0). Si ces données n’existent pas, renvoit le code HTTP 404.</p>
+<hr>
+<h2 id="gestion-de-la-capture">Gestion de la capture</h2>
+<p><strong>Urls :</strong> <code>/api/capture/start</code> et <code>/api/capture/stop</code><br>
+Permet de démarrer et d’arrêter la capture des données. Ne retourne rien.</p>
+<hr>
+<h2 id="gestion-du-chiffrement">Gestion du chiffrement</h2>
+<p><strong>Urls :</strong> <code>/api/encryption/enable</code> et <code>/api/encryption/disable</code><br>
+Permet d’activer et de désactiver le chiffrement des données. Ne retourne rien.</p>
+<hr>
+<h2 id="gestion-du-buzzer">Gestion du buzzer</h2>
+<p><strong>Urls :</strong> <code>/api/buzzer/start</code> et <code>/api/buzzer/stop</code><br>
+Permet de démarrer et d’arrêter le buzzer. Ne retourne rien.</p>
+<hr>
+<h2 id="arrêt-du-satellite">Arrêt du satellite</h2>
+<p><strong>Url :</strong> <code>/api/cansat/shutdown</code><br>
+Démarre la procédure d’arrêt du satellite. Arrête la capture en cours s’il y en a une, et attends l’enregistrement des données puis émet un signal sonore. Le status de l’arrêt peut être vérifié avec une requête GET à l’url <code>/api/cansat/status/shutdown</code>, qui renvoie la réponse suivante :</p>
+<pre class=" language-json"><code class="prism  language-json"><span class="token punctuation">{</span>
+	<span class="token string">"shutdown"</span><span class="token punctuation">:</span> <span class="token boolean">true</span><span class="token punctuation">,</span>
+	<span class="token string">"done"</span><span class="token punctuation">:</span> <span class="token boolean">false</span>
+<span class="token punctuation">}</span>
+</code></pre>
+<p><code>shudown</code> permet de savoir si une procédure d’arrêt est déjà en cours, si c’est le cas c’est <code>true</code>, et <code>done</code> permet de savoir si elle est terminée et que le satellite peut être éteint.</p>
+<hr>
+<h2 id="logs-wip">Logs (WIP)</h2>
+<p><strong>Url :</strong> <code>/api/cansat/logs</code><br>
+Work In Progress.<br>
+Permettra de récupérer les logs récent du cansat.<br>
+Actuellement, permet de télécharger le fichier des logs.</p>
+
+    </div>
+  </div>
+</body>
+
+</html>
